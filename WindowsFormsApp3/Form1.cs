@@ -148,13 +148,7 @@ namespace WindowsFormsApp3
 
         }
 
-        private void Tester()
-        {
-            if ((NO3TextBox.Text == String.Empty) || (SO4TextBox.Text == String.Empty) || (hardnessTextBox.Text == String.Empty))
-            {
-                MessageBox.Show("Нужно заполнить все исходные данные");
-            }
-        }
+        
 
 
         public void  SColumnClass() 
@@ -328,10 +322,23 @@ namespace WindowsFormsApp3
 
         private void CalcNO3Button_Click(object sender, EventArgs e)
         {
-            Tester();
-            CommonСalc();
-            Capacity();
 
+            if ( (NO3TextBox.Text != "") &&  (SO4TextBox.Text != "") && (hardnessTextBox.Text != ""))
+
+            {
+                CommonСalc();
+                Capacity();
+            }
+
+            else
+
+            {
+                
+                MessageBox.Show("Нужно заполнить все исходные данные");
+            }
+
+            
+            
         }
 
         private void ColumnComboBox_SelectedIndexChanged(object sender, EventArgs e)
