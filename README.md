@@ -1,2 +1,2 @@
 # NO3_Calc
-calculate_PA202_(NO3)_and_Hardness(TC007)
+calculate mix bed resources, flow and bypass for NO3 (A202) and Hardness(TC007)
