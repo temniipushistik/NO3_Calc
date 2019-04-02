@@ -16,7 +16,8 @@ namespace WindowsFormsApp3
 {
     public partial class Form1 : Form
     {
-        
+        Dictionary<string, string> mapTwo;
+        Calculator calculatorObject;
         decimal Hard;
         decimal NO3;
         decimal SO4;
@@ -53,9 +54,11 @@ namespace WindowsFormsApp3
         {
             NO3 = decimal.Parse(NO3TextBox.Text);
             SO4 = decimal.Parse(SO4TextBox.Text);
-            devideNO3SO4 = (NO3 / 63) / (NO3 / 63 + SO4 / 48);
+            devideNO3SO4 = (NO3 / 62) / (NO3 / 62 + SO4 / 48);
             Hard = decimal.Parse(hardnessTextBox.Text);
 
+
+            //прямоточная 250мг/л:
             anionCapasityL = 0.28M * devideNO3SO4 * devideNO3SO4 + 0.4M;//определяем по графику ресурс смолы.
                                                                       //надо подумать над ограничением графика
             devideNO3SO4Text = Convert.ToString(devideNO3SO4);
@@ -94,49 +97,51 @@ namespace WindowsFormsApp3
             //анионы
             sumAnion = NO3 + SO4;
             Hard = decimal.Parse(hardnessTextBox.Text);
-            if (sumAnion <= 50M)
+
+            int range = (int)((sumAnion) / 50M);// автоприведение типа в инт
+            switch (range)
             {
-                VAnion = 25;
+               case 0:
+                    VAnion = 25;
+                    break;
+                case 1:
+                    VAnion = 20;
+                    break;
+                case 2:
+                    VAnion = 15;
+                    break;
+                case 3:
+                    VAnion = 12;
+                    break;
+                default:
+                    VAnion = 10;
+                    break;
+
             }
-            else if (sumAnion > 50M && sumAnion <= 100M)
+            // выделяем целую часть через инт и используем ее в качесте проверки. Если 0 получается, то первое условие и т.д. 
+
+            range = (Hard <= 5) ? 0 : ((Hard <= 10) ? 1 : ((Hard <= 14) ? 2 : ((Hard <= 18) ? 3 : 4)));
+
+            switch (range)
             {
-                VAnion = 20;
-            }
-            else if (sumAnion > 100M && sumAnion <= 150M)
-            {
-                VAnion = 15;
-            }
-            else if (sumAnion > 150M && sumAnion <= 200M)
-            {
-                VAnion = 12;
-            }
-            else
-            {
-                VAnion = 10;
-            }
-            //катионы по жесткости
-            if (Hard <= 5)
-            {
-                VCation = 25; //назначаем линейные скорости
-            }
-            else if (Hard > 5 & Hard <= 10)
-            {
-                VCation = 20;
-            }
-            else if (Hard > 10 & Hard <= 14)
-            {
-                VCation = 15;
-            }
-            else if (Hard > 14 & Hard <= 18)
-            {
-                VCation = 12;
-            }
-            else
-            {
-                VCation = 10;
+                case 0:
+                    VCation = 25;
+                    break;
+                case 1:
+                    VCation = 20;
+                    break;
+                case 2:
+                    VCation = 15;
+                    break;
+                case 3:
+                    VCation = 12;
+                    break;
+                default:
+                    VCation = 10;
+                    break;
             }
 
-
+            
             //Выбираем меньшее:
 
             decimal VReal = Math.Min(VCation, VAnion);
@@ -293,10 +298,15 @@ namespace WindowsFormsApp3
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            calculatorObject = new Calculator();
+            fillColomnBox();
 
+           
+        }
 
-            Dictionary<string, string> mapTwo = new Dictionary<string, string>();
-
+        private void fillColomnBox()
+        {
+            mapTwo = new Dictionary<string, string>();
             mapTwo.Add("8x44 или кабинет", "6");
             mapTwo.Add("10х44", "10");
             mapTwo.Add("10х54", "10");
@@ -312,29 +322,44 @@ namespace WindowsFormsApp3
             mapTwo.Add("42х72", "280");
             mapTwo.Add("48х72", "360");
             mapTwo.Add("63х67", "600");
-            // эта магия позволяет использовать коллекцию ключ- значение в связке с выпадающим списком  :
-            columnComboBox.DataSource = new BindingSource(mapTwo, null);
-            columnComboBox.DisplayMember = "Key";
+            foreach (KeyValuePair<string,string> entry in mapTwo)
+            {
+                columnComboBox.Items.Add(entry.Key);
+            } //  добавляем значение ключа в комбобокс
         }
-
-        
 
 
         private void CalcNO3Button_Click(object sender, EventArgs e)
         {
 
-            if ( (NO3TextBox.Text != "") &&  (SO4TextBox.Text != "") && (hardnessTextBox.Text != ""))
 
+
+            if ( (NO3TextBox.Text != "") &&  (SO4TextBox.Text != "") && (hardnessTextBox.Text != "") && (hardnessTextBox.Text != "0") && (NO3TextBox.Text != "0") && (SO4TextBox.Text != "0"))
             {
-                CommonСalc();
-                Capacity();
+
+                calculatorObject.fillDatas(NO3TextBox.Text, SO4TextBox.Text, hardnessTextBox.Text, mapTwo[columnComboBox.Text]);
+                textBox3.Text = calculatorObject.calculateBypassNO3().ToString();
+                textBox2.Text = calculatorObject.calculateVolumeA202().ToString();
+                textBox1.Text = calculatorObject.calculateVolumeTC007().ToString();
+                textBox5.Text = calculatorObject.calculateFiltroCycle().ToString("0.0");
+                saltTextBox.Text = ((0.25M * calculatorObject.calculateVolumeA202()) + (0.12M * calculatorObject.calculateVolumeTC007())).ToString("0.0");
+
+                decimal VReal = Math.Min(calculatorObject.getVCation(), calculatorObject.getVAnion());
+
+                calculatorObject.SColumnClass(mapTwo[columnComboBox.Text]);
+
+                averageFlow = VReal * calculatorObject.sColumn;
+                averageFlowTextBox.Text = averageFlow.ToString("0.00");
+
+             
+                MessageBox.Show("ресурс жесткости "+ cationCapasityFull + "ресурс по нитратам "+ cationCapasityFull + "соотношение" + devideNO3SO4);
             }
 
             else
 
             {
                 
-                MessageBox.Show("Нужно заполнить все исходные данные");
+                MessageBox.Show("Нужно заполнить все исходные данные. Значения не должны быть нулями");
             }
 
             
@@ -343,11 +368,12 @@ namespace WindowsFormsApp3
 
         private void ColumnComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string value = ((KeyValuePair<string, string>)columnComboBox.SelectedItem).Value;// значение значения словаря кладем в value
-            textBox4.Text = value;
-            typeColumn = ((KeyValuePair<string, string>)columnComboBox.SelectedItem).Key;// значение ключа словаря кладем в typeColumn
+        //    string value = ((KeyValuePair<string, string>)columnComboBox.SelectedItem).Value;// значение значения словаря кладем в value
+            textBox4.Text = mapTwo[columnComboBox.Text];
+           // typeColumn = ((KeyValuePair<string, string>)columnComboBox.SelectedItem).Key;// значение ключа словаря кладем в typeColumn
             //MessageBox.Show(typeColumn);
         }
+
         private void Point(object sender, KeyPressEventArgs e)
         {
             if (!Char.IsControl(e.KeyChar) && !Char.IsDigit(e.KeyChar) && !(e.KeyChar == 44))
