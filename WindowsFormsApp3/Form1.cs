@@ -21,21 +21,19 @@ namespace WindowsFormsApp3
         decimal NO3;
         decimal SO4;
         decimal devideNO3SO4;
-        decimal bypassNO3;//проскок нитратов
         decimal volumeA202;//объем смолы 202
         decimal volumeTC007;//объем смолы 007
         decimal averageFlow;//производительность системы
         decimal filtroCycle;
-        decimal anionCapasityL;//емкость одного литра анионита
+        decimal bypass;
         decimal cationCapasityL;//емкость одного литра катионита
         decimal anionCapasityFull;//емкость всего объема анионита
         decimal cationCapasityFull;//емкость всего объема катионита
         decimal sumAnion;
         int VAnion;
         int VCation;
-        string devideNO3SO4Text;
-        string workCapacityText;
-        string bypassNO3Text;
+        decimal salt;
+        
         string typeColumn;
         decimal sColumn;
         decimal fullVolume;//полный объем смолы
@@ -47,49 +45,21 @@ namespace WindowsFormsApp3
         public Form1()
         {
             InitializeComponent();
+            V250.Checked = true;
         }
 
-        private void CommonСalc()
+        public void CommonСalc()
         {
             NO3 = decimal.Parse(NO3TextBox.Text);
             SO4 = decimal.Parse(SO4TextBox.Text);
-            devideNO3SO4 = (NO3 / 63) / (NO3 / 63 + SO4 / 48);
+            devideNO3SO4 = (NO3 / 62) / (NO3 / 62 + SO4 / 48);
             Hard = decimal.Parse(hardnessTextBox.Text);
 
-            anionCapasityL = 0.28M * devideNO3SO4 * devideNO3SO4 + 0.4M;//определяем по графику ресурс смолы.
-                                                                      //надо подумать над ограничением графика
-            devideNO3SO4Text = Convert.ToString(devideNO3SO4);
-            workCapacityText = Convert.ToString(anionCapasityL);
-            //определяем по графику проскок по нитратам:
-            if (devideNO3SO4 > 0.8M && devideNO3SO4 <= 1.0M)
-            {
-                bypassNO3 = (-2.5M * devideNO3SO4 + 11.5M) * NO3 * 0.01M;
-            }
-            else if (devideNO3SO4 > 0.6M && devideNO3SO4 <= 0.8M)
-            {
-                bypassNO3 = (-7.5M * devideNO3SO4 + 15.5M) * NO3 * 0.01M;
-            }
-            else if (devideNO3SO4 > 0.4M && devideNO3SO4 <= 0.6M)
-            {
-                bypassNO3 = (-25M * devideNO3SO4 + 26M) * NO3 * 0.01M;
-            }
-            else if (devideNO3SO4 > 0.2M && devideNO3SO4 <= 0.4M)
-            {
-                bypassNO3 = (-45M * devideNO3SO4 + 34M) * NO3 * 0.01M;
-            }
-            else if (devideNO3SO4 > 0M && devideNO3SO4 <= 0.2M)
-            {
-                bypassNO3 = (-75M * devideNO3SO4 + 40M) * NO3 * 0.01M;
-            }
-            else
-            {
-                bypassNO3 = NO3;
-            }
+            
 
-            bypassNO3Text = bypassNO3.ToString("0.0");
-
-            textBox3.Text = bypassNO3Text;
-
+            // devideNO3SO4Text = AnionCapasity125().ToString("0.00");
+            // workCapacityText = AnionCapasity125().ToString("0.00");
+                                 
             //считаем линейную скорость по катионам и анионам:
             //анионы
             sumAnion = NO3 + SO4;
@@ -147,7 +117,93 @@ namespace WindowsFormsApp3
 
 
         }
+        private decimal bypass125()
+        {
 
+            //определяем по графику проскок по нитратам для 125г NaCl на л:
+            if (devideNO3SO4 > 0.8M && devideNO3SO4 <= 1.0M)
+            {
+                return (-5M * devideNO3SO4 + 17M) * NO3 * 0.01M;
+            }
+            else if (devideNO3SO4 > 0.6M && devideNO3SO4 <= 0.8M)
+            {
+                return (-25M * devideNO3SO4 + 33M) * NO3 * 0.01M;
+            }
+            else if (devideNO3SO4 > 0.4M && devideNO3SO4 <= 0.6M)
+            {
+                return (-35M * devideNO3SO4 + 39M) * NO3 * 0.01M;
+            }
+            else if (devideNO3SO4 > 0.2M && devideNO3SO4 <= 0.4M)
+            {
+                return (-55M * devideNO3SO4 + 47M) * NO3 * 0.01M;
+            }
+            else if (devideNO3SO4 > 0M && devideNO3SO4 <= 0.2M)
+            {
+               return (-90M * devideNO3SO4 + 55M) * NO3 * 0.01M;
+            }
+            else
+            {
+                return  NO3;
+            }
+            //MessageBox.Show((bypassNO3 / (0.01M * NO3)).ToString());
+        }
+
+        private decimal bypass250()
+        {
+            //определяем по графику проскок по нитратам для 250г NaCl на л:
+            if (devideNO3SO4 > 0.8M && devideNO3SO4 <= 1.0M)
+             {
+                return (-2.5M * devideNO3SO4 + 11.5M) * NO3 * 0.01M;
+             }
+             else if (devideNO3SO4 > 0.6M && devideNO3SO4 <= 0.8M)
+             {
+                return (-7.5M * devideNO3SO4 + 15.5M) * NO3 * 0.01M;
+             }
+             else if (devideNO3SO4 > 0.4M && devideNO3SO4 <= 0.6M)
+             {
+                return (-25M * devideNO3SO4 + 26M) * NO3 * 0.01M;
+             }
+             else if (devideNO3SO4 > 0.2M && devideNO3SO4 <= 0.4M)
+             {
+                return (-45M * devideNO3SO4 + 34M) * NO3 * 0.01M;
+             }
+             else if (devideNO3SO4 > 0M && devideNO3SO4 <= 0.2M)
+             {
+                return (-75M * devideNO3SO4 + 40M) * NO3 * 0.01M;
+             }
+             else
+             {
+                return NO3;
+             }
+             
+        }
+
+
+        public decimal AnionCapasitySelected()
+
+            //работаем с выбором 125 или 250
+        {
+            if (V125.Checked)
+            {
+                textBox3.Text = bypass125().ToString("0.0");
+                bypass = bypass125();
+                salt = 0.125M;
+                return AnionCapasity125();
+                
+            }
+            else if (V250.Checked)
+            {
+                textBox3.Text = bypass250().ToString("0.0");
+                bypass = bypass250();
+                salt = 0.250M;
+                return AnionCapasity250();
+            }
+            else
+            {
+                MessageBox.Show("Выберите количество соли для регенерации: 125г или 250г");
+            }
+            return 0;
+        }
         
 
 
@@ -240,7 +296,7 @@ namespace WindowsFormsApp3
 
             cationCapasityL =1.2M/ Hard;
 
-            volumeTC007 = Math.Floor((anionCapasityL * fullVolume) / (anionCapasityL + cationCapasityL));
+            volumeTC007 = Math.Floor((AnionCapasitySelected() * fullVolume) / (AnionCapasitySelected() + cationCapasityL));
             volumeA202 = fullVolume - volumeTC007;
 
             
@@ -255,37 +311,99 @@ namespace WindowsFormsApp3
                 volumeA202 = fullVolume - volumeTC007;
             }
 
-            anionCapasityFull = anionCapasityL * volumeA202;
+            anionCapasityFull = 0.93M*(AnionCapasitySelected() * volumeA202)/((NO3/62)- (bypass/62));
             cationCapasityFull = cationCapasityL * volumeTC007;
 
             filtroCycle =Math.Min(cationCapasityFull, anionCapasityFull);
             textBox2.Text = volumeA202.ToString();
             textBox1.Text = volumeTC007.ToString();
-            textBox5.Text = filtroCycle.ToString("0.0");
-            saltTextBox.Text = ((0.25M * volumeA202) + (0.12M * volumeTC007)).ToString("0.0");
+            textBox5.Text = filtroCycle.ToString("0.00");
+            saltTextBox.Text = ((salt * volumeA202) + (0.12M * volumeTC007)).ToString("0.0");
+            
+        }
+
+        private decimal AnionCapasity125()
+        {
+
+
+            if (devideNO3SO4 > 0.8M && devideNO3SO4 <= 1.0M)
+            {
+                return (0.6M * devideNO3SO4 + 0.2M);
+            }
+            else if (devideNO3SO4 > 0.6M && devideNO3SO4 <= 0.8M)
+            {
+                return (0.5M * devideNO3SO4 + 0.1M);
+            }
+            else if (devideNO3SO4 > 0.4M && devideNO3SO4 <= 0.6M)
+            {
+                return (0.35M * devideNO3SO4 + 0.19M);
+            }
+
+            else if (devideNO3SO4 > 0.3M && devideNO3SO4 <= 0.4M)
+            {
+                return (0.3M * devideNO3SO4 + 0.22M);
+            }
+
+            else if (devideNO3SO4 > 0.2M && devideNO3SO4 <= 0.3M)
+            {
+                return (0.2M * devideNO3SO4 + 0.25M);
+            }
+
+            else if (devideNO3SO4 > 0.1M && devideNO3SO4 <= 0.2M)
+            {
+                return (0.3M * devideNO3SO4 + 0.23M);
+            }
+
+            else if (devideNO3SO4 > 0M && devideNO3SO4 <= 0.1M)
+            {
+                return (0.2M * devideNO3SO4 + 0.24M);
+            }
+
+
+            else
+            {
+                return 0;
+            }
+
+
+        }
+
+
+        //определяем по графику рабочую емкость по нитратам для 250г NaCl на л:
+
+        private decimal AnionCapasity250()
+        {
+
+
+            if (devideNO3SO4 > 0.8M && devideNO3SO4 <= 1.0M)
+            {
+                return (0.5M * devideNO3SO4 + 0.16M);
+            }
+            else if (devideNO3SO4 > 0.6M && devideNO3SO4 <= 0.8M)
+            {
+                return (0.3M * devideNO3SO4 + 0.32M);
+            }
+            else if (devideNO3SO4 > 0.4M && devideNO3SO4 <= 0.6M)
+            {
+                return (0.25M * devideNO3SO4 + 0.35M);
+            }
+
+            else if (devideNO3SO4 > 0.1M && devideNO3SO4 <= 0.4M)
+            {
+                return (0.1M * devideNO3SO4 + 0.4M);
+            }
+
+            else if (devideNO3SO4 > 0M && devideNO3SO4 <= 0.1M)
+            {
+                return (0.05M * devideNO3SO4 + 0.415M);
+            }
 
 
 
-            /*MessageBox.Show(" объем анионита "+ volumeA202.ToString() + " емкость по аниониту: "+anionCapasityFull.ToString("0.0") +"\n" +" объем катионита " + volumeTC007.ToString() + " емкость по катиониту: " + cationCapasityFull.ToString("0.0") + "\n" + " фильтроцикл: " + filtroCycle.ToString("0.0"));
-           
-              while (anionCapasityFull * 0.9M > cationCapasityFull)
-             {
-                 volumeA202--;
-                 volumeTC007++;
-                 anionCapasityFull = anionCapasityL * volumeA202;
-                 cationCapasityFull = cationCapasityL * volumeTC007;
-                 MessageBox.Show(anionCapasityFull.ToString() + "    " + cationCapasityFull.ToString());
-             }
-
-            while (anionCapasityFull*0.9M > cationCapasityFull || anionCapasityFull * 1.1M < cationCapasityFull )
-             {
-                 volumeA202++;
-                 volumeTC007--;
-                 anionCapasityFull = anionCapasityL * volumeA202;
-                 cationCapasityFull = cationCapasityL * volumeTC007;
-
-             } */
-
+            else
+            {
+                return 0;
+            }
 
         }
 
@@ -316,25 +434,29 @@ namespace WindowsFormsApp3
             columnComboBox.DataSource = new BindingSource(mapTwo, null);
             columnComboBox.DisplayMember = "Key";
         }
+        //определяем по графику рабочую емкость по нитратам для 125г NaCl на л:
 
-        
+       
+
+
 
 
         private void CalcNO3Button_Click(object sender, EventArgs e)
         {
 
-            if ( (NO3TextBox.Text != "") &&  (SO4TextBox.Text != "") && (hardnessTextBox.Text != ""))
+            if ( (NO3TextBox.Text != "") &&  (SO4TextBox.Text != "") && (hardnessTextBox.Text != "") && (NO3TextBox.Text != "0") && (SO4TextBox.Text != "0") && (hardnessTextBox.Text != "0"))
 
             {
                 CommonСalc();
                 Capacity();
+                //MessageBox.Show("емость по жесткости: " + cationCapasityFull + "емость по нитратам: " + anionCapasityFull);
             }
 
             else
 
             {
                 
-                MessageBox.Show("Нужно заполнить все исходные данные");
+                MessageBox.Show("Нужно заполнить все исходные данные, значения не должны быть нулями");
             }
 
             
@@ -347,6 +469,7 @@ namespace WindowsFormsApp3
             textBox4.Text = value;
             typeColumn = ((KeyValuePair<string, string>)columnComboBox.SelectedItem).Key;// значение ключа словаря кладем в typeColumn
             //MessageBox.Show(typeColumn);
+           
         }
         private void Point(object sender, KeyPressEventArgs e)
         {

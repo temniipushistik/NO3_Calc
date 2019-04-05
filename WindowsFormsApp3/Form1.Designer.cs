@@ -68,8 +68,12 @@ namespace WindowsFormsApp3
             this.calcNO3Button = new System.Windows.Forms.Button();
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.V125 = new System.Windows.Forms.RadioButton();
+            this.V250 = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // NO3Label
@@ -410,9 +414,9 @@ namespace WindowsFormsApp3
             // 
             // calcNO3Button
             // 
-            this.calcNO3Button.Location = new System.Drawing.Point(13, 190);
+            this.calcNO3Button.Location = new System.Drawing.Point(13, 333);
             this.calcNO3Button.Name = "calcNO3Button";
-            this.calcNO3Button.Size = new System.Drawing.Size(354, 52);
+            this.calcNO3Button.Size = new System.Drawing.Size(677, 52);
             this.calcNO3Button.TabIndex = 3;
             this.calcNO3Button.Text = "Рассчитать";
             this.calcNO3Button.UseVisualStyleBackColor = true;
@@ -421,7 +425,7 @@ namespace WindowsFormsApp3
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(21, 298);
+            this.label13.Location = new System.Drawing.Point(12, 400);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(222, 17);
             this.label13.TabIndex = 4;
@@ -435,23 +439,59 @@ namespace WindowsFormsApp3
             this.label14.Size = new System.Drawing.Size(0, 17);
             this.label14.TabIndex = 5;
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.V250);
+            this.groupBox3.Controls.Add(this.V125);
+            this.groupBox3.Location = new System.Drawing.Point(13, 191);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(354, 124);
+            this.groupBox3.TabIndex = 6;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Расход NaCl на литр А202 при прямоточной регенерации";
+            // 
+            // V125
+            // 
+            this.V125.AutoSize = true;
+            this.V125.Location = new System.Drawing.Point(21, 47);
+            this.V125.Name = "V125";
+            this.V125.Size = new System.Drawing.Size(74, 21);
+            this.V125.TabIndex = 0;
+            this.V125.TabStop = true;
+            this.V125.Text = "125 г/л";
+            this.V125.UseVisualStyleBackColor = true;
+            // 
+            // V250
+            // 
+            this.V250.AutoSize = true;
+            this.V250.Location = new System.Drawing.Point(21, 77);
+            this.V250.Name = "V250";
+            this.V250.Size = new System.Drawing.Size(74, 21);
+            this.V250.TabIndex = 1;
+            this.V250.TabStop = true;
+            this.V250.Text = "250 г/л";
+            this.V250.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(708, 331);
+            this.ClientSize = new System.Drawing.Size(708, 432);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.calcNO3Button);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Name = "Form1";
-            this.Text = "Расчет смеси смол";
+            this.Text = "Подбор смеси смол V2.0";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -496,6 +536,9 @@ namespace WindowsFormsApp3
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.RadioButton V250;
+        private System.Windows.Forms.RadioButton V125;
     }
 }
 
