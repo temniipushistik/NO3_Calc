@@ -55,7 +55,7 @@ namespace WindowsFormsApp3
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.textBoxNO3Bypass = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -69,8 +69,14 @@ namespace WindowsFormsApp3
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.V125 = new System.Windows.Forms.RadioButton();
             this.V250 = new System.Windows.Forms.RadioButton();
+            this.V125 = new System.Windows.Forms.RadioButton();
+            this.label15 = new System.Windows.Forms.Label();
+            this.a202ResinL = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.tC007ResinL = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -195,7 +201,13 @@ namespace WindowsFormsApp3
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.label18);
+            this.groupBox2.Controls.Add(this.label17);
+            this.groupBox2.Controls.Add(this.tC007ResinL);
+            this.groupBox2.Controls.Add(this.label16);
+            this.groupBox2.Controls.Add(this.a202ResinL);
             this.groupBox2.Controls.Add(this.label12);
+            this.groupBox2.Controls.Add(this.label15);
             this.groupBox2.Controls.Add(this.label11);
             this.groupBox2.Controls.Add(this.label8);
             this.groupBox2.Controls.Add(this.label7);
@@ -206,7 +218,7 @@ namespace WindowsFormsApp3
             this.groupBox2.Controls.Add(this.textBox4);
             this.groupBox2.Controls.Add(this.textBox1);
             this.groupBox2.Controls.Add(this.textBox2);
-            this.groupBox2.Controls.Add(this.textBox3);
+            this.groupBox2.Controls.Add(this.textBoxNO3Bypass);
             this.groupBox2.Controls.Add(this.label10);
             this.groupBox2.Controls.Add(this.label9);
             this.groupBox2.Controls.Add(this.label6);
@@ -218,7 +230,7 @@ namespace WindowsFormsApp3
             this.groupBox2.Controls.Add(this.PA202Label);
             this.groupBox2.Location = new System.Drawing.Point(373, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(317, 303);
+            this.groupBox2.Size = new System.Drawing.Size(317, 386);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Расчетные параметры";
@@ -322,14 +334,14 @@ namespace WindowsFormsApp3
             this.textBox2.TabIndex = 1;
             this.textBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // textBox3
+            // textBoxNO3Bypass
             // 
-            this.textBox3.Location = new System.Drawing.Point(175, 35);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.ReadOnly = true;
-            this.textBox3.Size = new System.Drawing.Size(61, 22);
-            this.textBox3.TabIndex = 1;
-            this.textBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBoxNO3Bypass.Location = new System.Drawing.Point(175, 35);
+            this.textBoxNO3Bypass.Name = "textBoxNO3Bypass";
+            this.textBoxNO3Bypass.ReadOnly = true;
+            this.textBoxNO3Bypass.Size = new System.Drawing.Size(61, 22);
+            this.textBoxNO3Bypass.TabIndex = 1;
+            this.textBoxNO3Bypass.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label10
             // 
@@ -416,7 +428,7 @@ namespace WindowsFormsApp3
             // 
             this.calcNO3Button.Location = new System.Drawing.Point(13, 333);
             this.calcNO3Button.Name = "calcNO3Button";
-            this.calcNO3Button.Size = new System.Drawing.Size(677, 52);
+            this.calcNO3Button.Size = new System.Drawing.Size(354, 52);
             this.calcNO3Button.TabIndex = 3;
             this.calcNO3Button.Text = "Рассчитать";
             this.calcNO3Button.UseVisualStyleBackColor = true;
@@ -450,6 +462,17 @@ namespace WindowsFormsApp3
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Расход NaCl на литр А202 при прямоточной регенерации";
             // 
+            // V250
+            // 
+            this.V250.AutoSize = true;
+            this.V250.Location = new System.Drawing.Point(21, 77);
+            this.V250.Name = "V250";
+            this.V250.Size = new System.Drawing.Size(74, 21);
+            this.V250.TabIndex = 1;
+            this.V250.TabStop = true;
+            this.V250.Text = "250 г/л";
+            this.V250.UseVisualStyleBackColor = true;
+            // 
             // V125
             // 
             this.V125.AutoSize = true;
@@ -461,16 +484,59 @@ namespace WindowsFormsApp3
             this.V125.Text = "125 г/л";
             this.V125.UseVisualStyleBackColor = true;
             // 
-            // V250
+            // label15
             // 
-            this.V250.AutoSize = true;
-            this.V250.Location = new System.Drawing.Point(21, 77);
-            this.V250.Name = "V250";
-            this.V250.Size = new System.Drawing.Size(74, 21);
-            this.V250.TabIndex = 1;
-            this.V250.TabStop = true;
-            this.V250.Text = "250 г/л";
-            this.V250.UseVisualStyleBackColor = true;
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(19, 300);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(147, 34);
+            this.label15.TabIndex = 4;
+            this.label15.Text = "Ресурс литра смолы \r\nPA202";
+            // 
+            // a202ResinL
+            // 
+            this.a202ResinL.Location = new System.Drawing.Point(175, 300);
+            this.a202ResinL.Name = "a202ResinL";
+            this.a202ResinL.ReadOnly = true;
+            this.a202ResinL.Size = new System.Drawing.Size(61, 22);
+            this.a202ResinL.TabIndex = 6;
+            this.a202ResinL.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(19, 339);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(147, 34);
+            this.label16.TabIndex = 7;
+            this.label16.Text = "Ресурс литра смолы \r\nTC007\r\n";
+            // 
+            // tC007ResinL
+            // 
+            this.tC007ResinL.Location = new System.Drawing.Point(175, 339);
+            this.tC007ResinL.Name = "tC007ResinL";
+            this.tC007ResinL.ReadOnly = true;
+            this.tC007ResinL.Size = new System.Drawing.Size(61, 22);
+            this.tC007ResinL.TabIndex = 8;
+            this.tC007ResinL.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(252, 303);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(51, 17);
+            this.label17.TabIndex = 9;
+            this.label17.Text = "г-экв/л";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(252, 342);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(51, 17);
+            this.label18.TabIndex = 10;
+            this.label18.Text = "г-экв/л";
             // 
             // Form1
             // 
@@ -484,7 +550,7 @@ namespace WindowsFormsApp3
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Name = "Form1";
-            this.Text = "Подбор смеси смол V2.0";
+            this.Text = "Подбор смеси смол V2.5";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -533,12 +599,18 @@ namespace WindowsFormsApp3
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox textBoxNO3Bypass;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.RadioButton V250;
         private System.Windows.Forms.RadioButton V125;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.TextBox tC007ResinL;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.TextBox a202ResinL;
+        private System.Windows.Forms.Label label15;
     }
 }
 
